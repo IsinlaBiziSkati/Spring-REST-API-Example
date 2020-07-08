@@ -2,6 +2,7 @@ package com.rest.school.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,7 +29,7 @@ public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
@@ -54,4 +55,8 @@ public class Student implements Serializable {
     @JoinColumn(name = "classroom_id",nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Classroom classroom;
+
+    @OneToMany(mappedBy="student", cascade=CascadeType.ALL)
+    private List<StudentLesson> lessons;
+
 }

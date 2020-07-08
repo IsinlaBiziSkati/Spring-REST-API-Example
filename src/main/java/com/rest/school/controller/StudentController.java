@@ -43,7 +43,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Student> putStudent(@PathVariable("id") int id, @RequestBody Student student) throws NotFoundException{
+    public ResponseEntity<Student> putStudent(@PathVariable("id") int id, @RequestBody @Valid Student student) throws NotFoundException{
         return new ResponseEntity<Student>(studentService.updateStudent(id, student), HttpStatus.OK);
     }
 

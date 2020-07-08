@@ -2,7 +2,9 @@ package com.rest.school.service;
 
 import java.util.List;
 
+import com.rest.school.model.Classroom;
 import com.rest.school.model.Student;
+import com.rest.school.repository.ClassroomRepository;
 import com.rest.school.repository.StudentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ public class StudentService {
     
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    ClassroomRepository classroomRepository;
 
     public List<Student> getStudents(){
         return studentRepository.findAll();
@@ -27,10 +31,16 @@ public class StudentService {
     }
 
     public Student createStudent(Student student){
+        Classroom classroomToUpdate = classroomRepository.findById(student.getClassroom().getId()).get();
+        classroomToUpdate.setStudent_count(classroomToUpdate.getStudent_count()+ 1);
+        classroomRepository.save(classroomToUpdate);
         return studentRepository.save(student);
     }
 
     public Student updateStudent(int id, Student student) throws NotFoundException{
+        Classroom classroomToUpdate = classroomRepository.findById(student.getClassroom().getId()).get();
+        classroomToUpdate.setStudent_count(classroomToUpdate.getStudent_count()+ 1);
+        classroomRepository.save(classroomToUpdate);
         return studentRepository.findById(id).map(studentObj -> {
             studentObj.setName(student.getName());
             studentObj.setGrade(student.getGrade());
@@ -43,11 +53,14 @@ public class StudentService {
 
     public Boolean deleteStudent(int id){
         if(studentRepository.findById(id) != null){
+            Student tmpStudent = studentRepository.findById(id).get();
+            Classroom classroomToUpdate = classroomRepository.findById(tmpStudent.getClassroom().getId()).get();
+            classroomToUpdate.setStudent_count(classroomToUpdate.getStudent_count()- 1);
+            classroomRepository.save(classroomToUpdate);
             studentRepository.deleteById(id);
             return true;
         }
         return false;
-        
     }
 
 }

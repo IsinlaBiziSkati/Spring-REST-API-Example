@@ -1,0 +1,6 @@
+FROM openjdk:11-jre
+
+COPY ./school-0.0.1.jar /home/app.jar
+COPY ./application.properties /home/application.properties
+
+CMD ["java","-jar","/home/app.jar","--spring.config.location=/home/application.properties"]
