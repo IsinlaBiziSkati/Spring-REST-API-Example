@@ -22,7 +22,7 @@ public class Lesson implements Serializable{/**
     private static final long serialVersionUID = 1L;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
     private int id;
 
@@ -31,5 +31,5 @@ public class Lesson implements Serializable{/**
 
     @JsonIgnore
     @OneToMany(mappedBy = "lesson", cascade=CascadeType.ALL)
-    private List<StudentLesson> student;
+    private List<StudentLesson> studentLessons;
 }

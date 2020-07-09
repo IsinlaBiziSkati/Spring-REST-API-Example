@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.rest.school.model.Student;
 import com.rest.school.model.StudentLesson;
 import com.rest.school.service.StudentLessonService;
 

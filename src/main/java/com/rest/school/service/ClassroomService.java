@@ -23,10 +23,12 @@ public class ClassroomService {
     }
 
     public Classroom getClassroom(int id) throws NotFoundException {
+        classroomRepository.findById(id).get().getStudents().size();
         return classroomRepository.findById(id).orElseThrow(() -> new NotFoundException("Could not find Classroom : "+id));
     }
     
     public Classroom createClassroom(Classroom classroom){
+        classroom.setStudentCount(0);
         return classroomRepository.save(classroom);
     }
 
@@ -35,18 +37,12 @@ public class ClassroomService {
             classroomObject.setName(classroom.getName());
             classroomObject.setCode(classroom.getCode());
             classroomObject.setLevel(classroom.getLevel());
+            classroomObject.setStudentCount(classroom.getStudentCount());
             return classroomRepository.save(classroomObject);
         }).orElseThrow(() -> new NotFoundException("There is such no Classroom in database" + id));
     }
 
-    public Boolean deleteClassroom(int id) {
-        Classroom classroom = classroomRepository.findById(id).get();
-        if(classroom == null){
-            return false;
-        } else {
-            classroomRepository.delete(classroom);
-            return true;
-        }
-     
+    public void deleteClassroom(int id) {
+        classroomRepository.deleteById(id);
     }
 }

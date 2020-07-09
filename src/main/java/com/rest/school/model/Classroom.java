@@ -7,9 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Formula;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,8 +23,8 @@ public class Classroom implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",columnDefinition = "serial")
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Column(name = "id")
     private int id;
 
     @NotNull
@@ -43,10 +41,11 @@ public class Classroom implements Serializable {
 
      //@NotNull
     //@Formula("(select count(*) FROM Student s, Classroom c WHERE s.classroom_id = c.id)")
+    //@JsonProperty(access =Access.READ_ONLY)
     @Column(name="student_count")
     @ColumnDefault("0")
-    private long student_count = 0;
-
+    private long studentCount = 0;
+    
     @JsonIgnore
     @OneToMany(mappedBy = "classroom",cascade = CascadeType.PERSIST)
     private List<Student> students;

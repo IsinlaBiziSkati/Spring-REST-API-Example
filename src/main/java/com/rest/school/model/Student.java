@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -29,7 +30,7 @@ public class Student implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
     private int id;
 
@@ -56,7 +57,8 @@ public class Student implements Serializable {
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Classroom classroom;
 
+    @JsonIgnore
     @OneToMany(mappedBy="student", cascade=CascadeType.ALL)
-    private List<StudentLesson> lessons;
+    private List<StudentLesson> studentLessons;
 
 }
