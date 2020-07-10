@@ -44,7 +44,7 @@ public class Classroom implements Serializable {
     //@JsonProperty(access =Access.READ_ONLY)
     @Column(name="student_count")
     @ColumnDefault("0")
-    private long studentCount = 0;
+    private int studentCount = 0;
     
     @JsonIgnore
     @OneToMany(mappedBy = "classroom",cascade = CascadeType.PERSIST)

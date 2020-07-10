@@ -17,13 +17,15 @@ public class ClassroomService {
     
     @Autowired
     private ClassroomRepository classroomRepository;
+    @Autowired
+    private StudentService studentService;
 
+    //Essential CRUD operations
     public List<Classroom> getClassrooms() {
         return classroomRepository.findAll();
     }
 
     public Classroom getClassroom(int id) throws NotFoundException {
-        classroomRepository.findById(id).get().getStudents().size();
         return classroomRepository.findById(id).orElseThrow(() -> new NotFoundException("Could not find Classroom : "+id));
     }
     
@@ -44,5 +46,12 @@ public class ClassroomService {
 
     public void deleteClassroom(int id) {
         classroomRepository.deleteById(id);
+    }
+
+    //Extra Methods
+    public void calculateStudentCount(Classroom classroom) throws NotFoundException{
+        Classroom classroomToUpdate = getClassroom(classroom.getId());
+        classroomToUpdate.setStudentCount(studentService.getStudentCount(classroom.getId()));
+        putClasroom(classroomToUpdate.getId(), classroomToUpdate);
     }
 }

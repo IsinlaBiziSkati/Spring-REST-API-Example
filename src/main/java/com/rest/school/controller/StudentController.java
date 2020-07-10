@@ -38,7 +38,7 @@ public class StudentController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Student> postStudent(@RequestBody @Valid Student student) {
+    public ResponseEntity<Student> postStudent(@RequestBody @Valid Student student) throws NotFoundException {
         return new ResponseEntity<Student>(studentService.createStudent(student), HttpStatus.CREATED);
     }
 
@@ -48,7 +48,7 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteStudent(@PathVariable("id") int id){
+    public ResponseEntity<?> deleteStudent(@PathVariable("id") int id) throws NotFoundException{
         studentService.deleteStudent(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
